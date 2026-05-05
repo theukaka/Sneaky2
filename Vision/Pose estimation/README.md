@@ -1,30 +1,30 @@
-# 📷 test_pose.py — Estimation de pose avec un damier (OpenCV)
+# 📷 test_pose.py — Pose Estimation with a Chessboard (OpenCV)
 
-Ce script permet d’estimer la **pose d’une caméra** par rapport à un damier (chessboard) à partir d’une calibration préalable. Il fonctionne soit sur une **image fixe**, soit en **temps réel avec une webcam**.
-
----
-
-## 🚀 Fonctionnalités
-
-* Détection automatique d’un damier (9x6 coins internes)
-* Estimation de la pose via `solvePnP`
-* Projection et affichage d’un repère 3D (axes X, Y, Z)
-* Affichage des paramètres de pose :
-
-  * vecteur de translation (`tvec`)
-  * matrice de rotation
-* Mode temps réel avec webcam
-* Capture d’images à la volée
+This script estimates the **pose of a camera** relative to a chessboard pattern using a previously computed camera calibration. It works with both **static images** and **real-time webcam input**.
 
 ---
 
-## 📦 Prérequis
+## 🚀 Features
+
+* Automatic detection of a chessboard (9x6 inner corners)
+* Pose estimation using `solvePnP`
+* Projection and display of a 3D coordinate frame (X, Y, Z axes)
+* Outputs pose parameters:
+
+  * translation vector (`tvec`)
+  * rotation matrix
+* Real-time webcam mode
+* Frame capture support
+
+---
+
+## 📦 Requirements
 
 * Python 3.x
 * OpenCV (`cv2`)
 * NumPy
 
-Installation des dépendances :
+Install dependencies:
 
 ```bash
 pip install opencv-python numpy
@@ -32,93 +32,93 @@ pip install opencv-python numpy
 
 ---
 
-## 📁 Fichier de calibration requis
+## 📁 Required Calibration File
 
-Le script utilise un fichier :
+The script expects a file:
 
 ```
 calibration_camera.npz
 ```
 
-Ce fichier doit contenir :
+This file must contain:
 
-* `K` : matrice intrinsèque de la caméra
-* `dist` : coefficients de distorsion
+* `K` : camera intrinsic matrix
+* `dist` : distortion coefficients
 
 ---
 
-## ⚙️ Paramètres
+## ⚙️ Parameters
 
 ```python
-DAMIER = (9, 6)        # Nombre de coins internes (colonnes, lignes)
-TAILLE_CASE_MM = 25    # Taille d’une case du damier en mm
+DAMIER = (9, 6)        # Number of inner corners (columns, rows)
+TAILLE_CASE_MM = 25    # Size of one square in mm
 ```
 
 ---
 
-## 🧠 Principe
+## 🧠 How It Works
 
-1. Détection des coins du damier dans l’image
-2. Raffinement des positions (`cornerSubPix`)
-3. Association avec des points 3D connus
-4. Estimation de la pose avec `solvePnP`
-5. Projection d’un repère 3D dans l’image
+1. Detect chessboard corners in the image
+2. Refine corner positions (`cornerSubPix`)
+3. Match them with known 3D points
+4. Estimate pose using `solvePnP`
+5. Project a 3D coordinate frame onto the image
 
-Axes affichés :
+Axes color convention:
 
-* **X** → rouge
-* **Y** → vert
-* **Z** → bleu (vers la caméra)
+* **X** → red
+* **Y** → green
+* **Z** → blue (pointing toward the camera)
 
 ---
 
-## 🖼️ Mode image fixe
+## 🖼️ Static Image Mode
 
-Décommente cette ligne dans le `main` :
+Uncomment this line in `main`:
 
 ```python
 traiter_image("test.jpg")
 ```
 
-Puis commente le mode webcam.
+And comment out the webcam mode.
 
-### Résultat :
+### Output:
 
-* Affichage de l’image avec le repère 3D
-* Affichage console :
+* Image with projected 3D axes
+* Console output:
 
   * translation (mm)
-  * matrice de rotation
+  * rotation matrix
 
 ---
 
-## 🎥 Mode webcam (temps réel)
+## 🎥 Webcam Mode (Real-Time)
 
-Par défaut :
+Default:
 
 ```python
 traiter_webcam(1)
 ```
 
-> ⚠️ L’index de caméra peut varier (`0`, `1`, etc.)
+> ⚠️ Camera index may vary (`0`, `1`, etc.)
 
-### Contrôles clavier :
+### Keyboard Controls:
 
-| Touche | Action                |
-| ------ | --------------------- |
-| `q`    | Quitter               |
-| `s`    | Sauvegarder une image |
+| Key | Action             |
+| --- | ------------------ |
+| `q` | Quit               |
+| `s` | Save current frame |
 
-### Affichage :
+### Display:
 
-* Repère 3D en temps réel
-* Distance Z (profondeur) affichée
+* Real-time 3D axes overlay
+* Z distance (depth) displayed
 
 ---
 
-## 💾 Sauvegarde
+## 💾 Saving Images
 
-Les captures sont enregistrées sous la forme :
+Captured frames are saved as:
 
 ```
 capture_000.jpg
