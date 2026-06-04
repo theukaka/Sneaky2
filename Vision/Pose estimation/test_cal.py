@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import glob
 
-# Dimensions du damier : nombre de coins INTÉRIEURS (colonnes, lignes)
+# Board dimensions: number of INNER corners (columns, rows)
 DAMIER = (9, 6)
 TAILLE_CASE_MM = 25  # taille réelle d'une case en millimètres
 # Coordonnées 3D des coins dans le repère du damier (Z=0 car plan plat)
